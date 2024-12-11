@@ -28,7 +28,6 @@ const createUserFromClerk = async (value) => {
     public_metadata,
   } = value;
   const emails = email_addresses.map((email) => email.email_address);
-  console.log("emails:", emails);
   const role = public_metadata.role || "member";
   try {
     const createdUser = await User.create({
