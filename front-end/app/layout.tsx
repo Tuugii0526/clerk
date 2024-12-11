@@ -1,8 +1,6 @@
 import {
   ClerkProvider,
-  GoogleOneTap,
   SignInButton,
-  SignInWithMetamaskButton,
   SignedIn,
   SignedOut,
   UserButton,
