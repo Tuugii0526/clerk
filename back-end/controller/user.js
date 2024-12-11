@@ -35,7 +35,7 @@ const createUserFromClerk = async (value) => {
       clerk_id: id,
       first_name: first_name,
       last_name: last_name,
-      email_address: emails,
+      emails: emails,
       image_url: image_url,
       role: role,
     });
@@ -63,7 +63,7 @@ const updateUserFromClerk = async (value) => {
         $set: {
           first_name: first_name,
           last_name: last_name,
-          email_address: emails,
+          emails: emails,
           image_url: image_url,
           role: role,
         },
