@@ -1,7 +1,7 @@
 // import mongoose from "mongoose";
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
-  id: {
+  clerk_id: {
     type: String,
   },
   first_name: {

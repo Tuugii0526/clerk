@@ -32,17 +32,65 @@ const createUserFromClerk = async (value) => {
   const role = public_metadata.role || "member";
   try {
     const createdUser = await User.create({
-      id: id,
+      clerk_id: id,
       first_name: first_name,
       last_name: last_name,
       email_address: email_address,
       image_url: image_url,
       role: role,
     });
-    console.log("created user:", createdUser);
     return createdUser;
   } catch (error) {
     console.log(`Error occured adding user.Error:${error}`);
+    return false;
+  }
+};
+const updateUserFromClerk = async (value) => {
+  const {
+    id,
+    first_name,
+    last_name,
+    email_addresses,
+    image_url,
+    public_metadata,
+  } = value;
+  const { email_address } = email_addresses[0];
+  const role = public_metadata.role || "member";
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { clerk_id: id },
+      {
+        $set: {
+          first_name: first_name,
+          last_name: last_name,
+          email_address: email_address,
+          image_url: image_url,
+          role: role,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    return updatedUser;
+  } catch (error) {
+    console.log(`Error occured adding user.Error:${error}`);
+    return false;
+  }
+};
+const deleteUserFromClerk = async (value) => {
+  const { id, deleted } = value;
+  if (id && deleted) {
+    try {
+      const deletedUser = await User.findOneAndDelete({
+        clerk_id: id,
+      });
+      return deletedUser;
+    } catch (error) {
+      console.log(`Error occured adding user.Error:${error}`);
+      return false;
+    }
+  } else {
     return false;
   }
 };
@@ -51,4 +99,6 @@ module.exports = {
   createUser,
   getUsers,
   createUserFromClerk,
+  updateUserFromClerk,
+  deleteUserFromClerk,
 };

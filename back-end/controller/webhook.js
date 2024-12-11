@@ -3,7 +3,11 @@
 // import { Webhook } from "svix";
 require("dotenv").config();
 const { User } = require("../model/user");
-const { createUserFromClerk } = require("../controller/user");
+const {
+  createUserFromClerk,
+  updateUserFromClerk,
+  deleteUserFromClerk,
+} = require("../controller/user");
 const svix = require("svix");
 const { Webhook } = svix;
 const tryWebhook = async (req, res) => {
@@ -63,6 +67,7 @@ const tryWebhook = async (req, res) => {
     email_addresses,
     image_url,
     public_metadata,
+    deleted,
   } = evt.data;
   const eventType = evt.type;
   const value = {
@@ -72,6 +77,7 @@ const tryWebhook = async (req, res) => {
     email_addresses,
     image_url,
     public_metadata,
+    deleted,
   };
   switch (eventType) {
     case "user.created": {
@@ -86,6 +92,36 @@ const tryWebhook = async (req, res) => {
         return res.status(500).json({
           success: false,
           message: "Failed to create user",
+        });
+      }
+    }
+    case "user.updated": {
+      const updatedUser = await updateUserFromClerk(value);
+      if (updatedUser) {
+        return res.status(201).json({
+          success: true,
+          message: "User updated",
+          createdUser: updatedUser,
+        });
+      } else {
+        return res.status(500).json({
+          success: false,
+          message: "Failed to update user",
+        });
+      }
+    }
+    case "user.deleted": {
+      const deletedUser = await deleteUserFromClerk(value);
+      if (deletedUser) {
+        return res.status(201).json({
+          success: true,
+          message: "User deleted",
+          createdUser: deletedUser,
+        });
+      } else {
+        return res.status(500).json({
+          success: false,
+          message: "Failed to delete user",
         });
       }
     }
