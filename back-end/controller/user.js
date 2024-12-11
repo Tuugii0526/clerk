@@ -27,8 +27,12 @@ const createUserFromClerk = async (value) => {
     image_url,
     public_metadata,
   } = value;
+
   const { email_address } = email_addresses[0];
   const role = public_metadata.role || "member";
+  console.log("value is:", value);
+  console.log("eamil :", email_address);
+  console.log("role:", role);
   try {
     const createdUser = await User.create({
       id: id,

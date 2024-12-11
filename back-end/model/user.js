@@ -21,11 +21,14 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["admin", "user"],
-    default: "user",
+    enum: {
+      values: ["admin", "member"],
+      message: "{VALUE} is not a valid role",
+    },
+    default: "member",
   },
 });
-const User = mongoose.model("Clerkuser", userSchema);
+const User = mongoose.model("User", userSchema);
 // export default User;
 module.exports = {
   User,
