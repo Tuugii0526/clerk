@@ -27,15 +27,14 @@ const createUserFromClerk = async (value) => {
     image_url,
     public_metadata,
   } = value;
-
-  const { email_address } = email_addresses[0];
+  const emails = email_addresses.map((email) => email.email_address);
   const role = public_metadata.role || "member";
   try {
     const createdUser = await User.create({
       clerk_id: id,
       first_name: first_name,
       last_name: last_name,
-      email_address: email_address,
+      email_address: emails,
       image_url: image_url,
       role: role,
     });
@@ -54,7 +53,7 @@ const updateUserFromClerk = async (value) => {
     image_url,
     public_metadata,
   } = value;
-  const { email_address } = email_addresses[0];
+  const emails = email_addresses.map((email) => email.email_address);
   const role = public_metadata.role || "member";
   try {
     const updatedUser = await User.findOneAndUpdate(
@@ -63,7 +62,7 @@ const updateUserFromClerk = async (value) => {
         $set: {
           first_name: first_name,
           last_name: last_name,
-          email_address: email_address,
+          email_address: emails,
           image_url: image_url,
           role: role,
         },
