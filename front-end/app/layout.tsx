@@ -1,6 +1,8 @@
 import {
   ClerkProvider,
+  GoogleOneTap,
   SignInButton,
+  SignInWithMetamaskButton,
   SignedIn,
   SignedOut,
   UserButton,
@@ -22,10 +24,22 @@ export default function RootLayout({
         <body>
           <header>
             <SignedOut>
-              <SignInButton />
+              <SignInButton>
+                <button className="p-1 border border-green-200 rounded-md">
+                  Sign in
+                </button>
+              </SignInButton>
             </SignedOut>
+
             <SignedIn>
-              <UserButton showName />
+              <UserButton
+                showName
+                appearance={{
+                  elements: {
+                    userButtonBox: "bg-green-200 border border-2 rounded-md",
+                  },
+                }}
+              />
             </SignedIn>
           </header>
           <main className="w-full h-screen flex justify-center items-center">

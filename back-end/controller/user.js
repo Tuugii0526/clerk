@@ -18,8 +18,35 @@ const createUser = async (req, res) => {
     return res.status(500).json({ error });
   }
 };
+const createUserFromClerk = async (value) => {
+  const {
+    id,
+    first_name,
+    last_name,
+    email_addresses,
+    image_url,
+    public_metadata,
+  } = value;
+  const { email_address } = email_addresses[0];
+  const role = public_metadata.role || "member";
+  try {
+    const createdUser = await User.create({
+      id: id,
+      first_name: first_name,
+      last_name: last_name,
+      email_address: email_address,
+      image_url: image_url,
+      role: role,
+    });
+    return createdUser;
+  } catch (error) {
+    console.log(`Error occured adding user.Error:${error}`);
+    return false;
+  }
+};
 // export { createUser, getUsers };
 module.exports = {
   createUser,
   getUsers,
+  createUserFromClerk,
 };
