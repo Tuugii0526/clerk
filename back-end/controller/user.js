@@ -30,9 +30,6 @@ const createUserFromClerk = async (value) => {
 
   const { email_address } = email_addresses[0];
   const role = public_metadata.role || "member";
-  console.log("value is:", value);
-  console.log("eamil :", email_address);
-  console.log("role:", role);
   try {
     const createdUser = await User.create({
       id: id,
@@ -42,6 +39,7 @@ const createUserFromClerk = async (value) => {
       image_url: image_url,
       role: role,
     });
+    console.log("created user:", createdUser);
     return createdUser;
   } catch (error) {
     console.log(`Error occured adding user.Error:${error}`);
